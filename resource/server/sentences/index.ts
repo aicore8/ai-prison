@@ -8,6 +8,7 @@ import { CORE } from "@aifivem/shared";
 import { Locale } from "common";
 import { META } from "common/prison";
 import { sentences } from "./sentences";
+import "./area";
 
 every(60_000, () => sentences.tick(), { name: "sentences" });
 every(10_000, () => sentences.checkEscapes(), { name: "escapes" });

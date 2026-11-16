@@ -1,6 +1,7 @@
 import {
   aiLog,
   coordsOf,
+  Cooldowns,
   dispatch,
   inventory,
   mdt,
@@ -20,6 +21,8 @@ import { toItems } from "./storedItems";
  */
 class Sentences {
   private readonly jailed = new PlayerMap<number>();
+  /** The last escape caught per player (the colshape exit and the timer can see the same one). */
+  private readonly caught = new Cooldowns();
   /** True while this resource writes `injail` (its own `metaChanged` is not a third-party jail). */
   private writing = false;
 
@@ -145,32 +148,40 @@ class Sentences {
     for (const source of this.jailed.keys()) this.add(source, -1);
   }
 
-  /** Outside the prison area: back to a cell with the penalty, and the police hear of it. */
+  /** The 10 s area check of every jailed player. */
   checkEscapes(): void {
+    for (const source of this.jailed.keys()) this.checkEscape(source);
+  }
+
+  /**
+   * Outside the prison area: back to a cell with the penalty, and the police hear of it. Called by the timer and, on
+   * Enhanced, at once by the area's colshape exit; one catch per 5 s, so both never punish the same escape (shorter
+   * than the timer: a repeated escape is still caught at every check).
+   */
+  checkEscape(source: number): void {
     const zone = settings.value.zone;
-    if (!zone) return;
-    for (const source of this.jailed.keys()) {
-      const at = coordsOf(source);
-      if (!at || zoneContains(zone, at.x, at.y, at.z)) continue;
-      const penalty = settings.value.escapePenalty;
-      if (penalty > 0) this.add(source, penalty);
-      this.toCell(source);
-      notify(source, Locale("PRISON_ESCAPE_CAUGHT", penalty), "error", 8000);
-      if (settings.value.escapeAlert)
-        dispatch.alert({
-          code: "10-98",
-          title: Locale("ALERT_ESCAPE_TITLE"),
-          message: Locale("ALERT_ESCAPE_MESSAGE"),
-          coords: at,
-          source,
-          icon: "person-running",
-          priority: "high",
-        });
-      aiLog("prison", "escape attempt", {
-        target: source,
-        metadata: { penalty },
+    if (!zone || !this.jailed.has(source)) return;
+    const at = coordsOf(source);
+    if (!at || zoneContains(zone, at.x, at.y, at.z)) return;
+    if (!this.caught.take(source, 5_000)) return;
+    const penalty = settings.value.escapePenalty;
+    if (penalty > 0) this.add(source, penalty);
+    this.toCell(source);
+    notify(source, Locale("PRISON_ESCAPE_CAUGHT", penalty), "error", 8000);
+    if (settings.value.escapeAlert)
+      dispatch.alert({
+        code: "10-98",
+        title: Locale("ALERT_ESCAPE_TITLE"),
+        message: Locale("ALERT_ESCAPE_MESSAGE"),
+        coords: at,
+        source,
+        icon: "person-running",
+        priority: "high",
       });
-    }
+    aiLog("prison", "escape attempt", {
+      target: source,
+      metadata: { penalty },
+    });
   }
 }
 
