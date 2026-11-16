@@ -3,9 +3,10 @@ import { panel, settings } from "../content";
 import { sentences } from "./sentences";
 
 /**
- * Enhanced: the prison area as a server colshape, so a jailed player who leaves it is checked at once instead of at
- * the next 10 s timer. The timer still runs everywhere: no exit fires for a player who was never inside, sits in
- * another routing bucket or stood outside an edited area. Nothing happens on Legacy (no colshapes).
+ * The prison area as a server colshape (documented for Enhanced; a Legacy build that ships working colshapes gets
+ * it too), so a jailed player who leaves it is checked at once instead of at the next 10 s timer. The timer still
+ * runs everywhere: no exit fires for a player who was never inside, sits in another routing bucket or stood outside
+ * an edited area. Without colshapes nothing is created.
  */
 let shape: number | null = null;
 let built = "";
