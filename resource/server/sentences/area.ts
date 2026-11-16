@@ -1,36 +1,37 @@
-import { enhanced, onStop } from "@aifivem/lib/server";
+import {
+  createColshape,
+  deleteColshape,
+  onColshape,
+} from "@aifivem/lib/server";
 import { panel, settings } from "../content";
 import { sentences } from "./sentences";
 
 /**
- * The prison area as a server colshape (documented for Enhanced; a Legacy build that ships working colshapes gets
- * it too), so a jailed player who leaves it is checked at once instead of at the next 10 s timer. The timer still
- * runs everywhere: no exit fires for a player who was never inside, sits in another routing bucket or stood outside
- * an edited area. Without colshapes nothing is created.
+ * The prison area as a FiveM colshape (lib `createColshape`, players only; FiveM deletes it when this resource
+ * stops), so a jailed player who leaves it is checked at once instead of at the next 10 s timer. The timer still
+ * runs: no exit fires for a player who was never inside or sits in another routing bucket.
  */
 let shape: number | null = null;
+let unsubscribe: (() => void) | null = null;
 let built = "";
+
+function onExit(entity: number, inside: boolean): void {
+  if (inside || !DoesEntityExist(entity)) return;
+  const owner = NetworkGetEntityOwner(entity);
+  if (owner > 0 && GetPlayerPed(String(owner)) === entity)
+    sentences.checkEscape(owner);
+}
 
 function build(): void {
   const zone = settings.value.zone;
   const key = zone ? JSON.stringify(zone) : "";
   if (key === built) return;
   built = key;
-  if (shape !== null) enhanced.deleteColshape(shape);
-  shape = zone ? enhanced.polygonColshape(zone) : null;
+  unsubscribe?.();
+  if (shape !== null) deleteColshape(shape);
+  shape = zone ? createColshape(zone) : null;
+  unsubscribe = shape !== null ? onColshape(shape, onExit) : null;
 }
 
 build();
 panel.onChange("settings", build);
-
-on("onColshapeExit", (entity: number, id: number) => {
-  if (shape === null || id !== shape || !DoesEntityExist(entity)) return;
-  // Only the player's own ped: an NPC its client owns does not count.
-  const owner = NetworkGetEntityOwner(entity);
-  if (owner > 0 && GetPlayerPed(String(owner)) === entity)
-    sentences.checkEscape(owner);
-});
-
-onStop(() => {
-  if (shape !== null) enhanced.deleteColshape(shape);
-});
