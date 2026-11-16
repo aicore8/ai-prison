@@ -154,8 +154,8 @@ class Sentences {
   }
 
   /**
-   * Outside the prison area: back to a cell with the penalty, and the police hear of it. Called by the timer and, on
-   * Enhanced, at once by the area's colshape exit; one catch per 5 s, so both never punish the same escape (shorter
+   * Outside the prison area: back to a cell with the penalty, and the police hear of it. Called by the timer and at
+   * once by the area's colshape exit; one catch per 5 s, so both never punish the same escape (shorter
    * than the timer: a repeated escape is still caught at every check).
    */
   checkEscape(source: number): void {
