@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.3.0](https://github.com/aifivem/ai-prison/compare/v0.2.4...v0.3.0) (2026-11-16)
+
+
+### New Features
+
+* **prison:** instant escape check at the prison area's colshape exit ([85e54bc](https://github.com/aifivem/ai-prison/commit/85e54bc980f1a29f152228cf36f617d12a2fe4d5))
+
+
+### Code Refactoring
+
+* prison area colshape through lib createColshape / onColshape ([448728f](https://github.com/aifivem/ai-prison/commit/448728fcf25eef2508f1b037c7112a474ebecb2e))
+
+
+### Documentation
+
+* prison colshape fires in every routing bucket ([225fadd](https://github.com/aifivem/ai-prison/commit/225fadd47b7434770086a3e105b361795b18cc17))
+* **prison:** colshape exit wherever server colshapes work ([4174411](https://github.com/aifivem/ai-prison/commit/4174411085a94dae6a50df954a50061b9e57a60f))
+
 ## [0.2.4](https://github.com/aifivem/ai-prison/compare/v0.2.3...v0.2.4) (2026-11-02)
 
 
