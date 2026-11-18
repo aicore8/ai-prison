@@ -1,4 +1,4 @@
-import type { FileSpec, TabSpec } from "@aifivem/shared";
+import type { FileSpec, TabSpec } from "@aicore8/shared";
 
 const MINUTES = { type: "number", min: 0, max: 600, integer: true } as const;
 

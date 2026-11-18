@@ -1,5 +1,5 @@
-import { AdminPanel, resourceExport } from "@aifivem/lib/server";
-import { createLogger } from "@aifivem/lib/shared";
+import { AdminPanel, resourceExport } from "@aicore8/lib/server";
+import { createLogger } from "@aicore8/lib/shared";
 import { ResourceName } from "common";
 import { readSettings, readTask } from "common/prison";
 import { prisonSchema } from "./schema";

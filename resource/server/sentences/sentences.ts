@@ -8,8 +8,8 @@ import {
   notify,
   online,
   PlayerMap,
-} from "@aifivem/lib/server";
-import { pickRandom, zoneContains } from "@aifivem/lib/shared";
+} from "@aicore8/lib/server";
+import { pickRandom, zoneContains } from "@aicore8/lib/shared";
 import { Locale } from "common";
 import { EVENTS, META } from "common/prison";
 import { core, log, settings } from "../content";

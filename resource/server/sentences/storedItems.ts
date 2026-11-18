@@ -1,5 +1,5 @@
-import { isRecord } from "@aifivem/lib/shared";
-import type { ItemMetadata } from "@aifivem/shared";
+import { isRecord } from "@aicore8/lib/shared";
+import type { ItemMetadata } from "@aicore8/shared";
 
 /** Confiscated items as stored in `jailitems`. */
 interface StoredItem {

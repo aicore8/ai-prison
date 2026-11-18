@@ -2,7 +2,7 @@ import {
   createColshape,
   deleteColshape,
   onColshape,
-} from "@aifivem/lib/server";
+} from "@aicore8/lib/server";
 import { panel, settings } from "../content";
 import { sentences } from "./sentences";
 

@@ -1,5 +1,5 @@
-import { AdminWorld, callAction, notify } from "@aifivem/lib/client";
-import { RecordObjects } from "@aifivem/lib/shared";
+import { AdminWorld, callAction, notify } from "@aicore8/lib/client";
+import { RecordObjects } from "@aicore8/lib/shared";
 import { Locale } from "common";
 import { EVENTS, readSettings, readTask } from "common/prison";
 import { points } from "./points";
