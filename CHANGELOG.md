@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.1](https://github.com/aicore8/ai-prison/compare/v0.3.0...v0.3.1) (2026-11-18)
+
+
+### Miscellaneous Chores
+
+* rename aifivem to aicore8 (aicore8.com, github.com/aicore8, [@aicore8](https://github.com/aicore8) npm scope) ([6ee13de](https://github.com/aicore8/ai-prison/commit/6ee13de67694510085dfed237150a1c4eaf2c02e))
+
 ## [0.3.0](https://github.com/aicore8/ai-prison/compare/v0.2.4...v0.3.0) (2026-11-16)
 
 
